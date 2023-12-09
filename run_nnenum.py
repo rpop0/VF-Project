@@ -20,6 +20,12 @@ def main() -> None:
     parser.add_argument(
         "-s", "--script", required=True, help="Shell script to run the tool."
     )
+    parser.add_argument(
+        "-p",
+        "--path-to-benchmark",
+        required=True,
+        help="Path to the benchmark containing the 'onnx' and 'vnnlib' folders.",
+    )
     args = parser.parse_args()
     run_tool(args.instances, args.script)
 
