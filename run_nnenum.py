@@ -9,7 +9,9 @@ def run_tool(instances_path: str, script_path: str) -> None:
         reader = csv.reader(f)
         for idx, row in enumerate(reader):
             onnx, vnnlib, timeout = row
-            subprocess.call(["sh", script_path, onnx, vnnlib, timeout, f"{idx}.txt"])
+            subprocess.call(
+                ["sh", script_path, "v1", "nn4sys", onnx, vnnlib, timeout, f"{idx}.txt"]
+            )
 
 
 def main() -> None:
