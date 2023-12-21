@@ -1,0 +1,8 @@
+services:
+  nnenum:
+    image: nnenum
+    volumes:
+      - '/home/stringer/vf/VF-Project:/tools'
+      - '/home/stringer/vf/nn4sys:/nn4sys'
+    command: sh -c 'python3 /tools/nnenum/run_nnenum.py  -i /nn4sys/instances.csv -s /work/vnncomp_scripts/run_instance.sh -p /nn4sys/ && tail -f /dev/null'
+
