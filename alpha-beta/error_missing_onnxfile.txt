@@ -1,0 +1,79 @@
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% idx: 0, vnnlib ID: 0 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Using onnx vnncomp2022/benchmarks/nn4sys/onnx/mscn_2048d_dual.onnx
+Using vnnlib vnncomp2022/benchmarks/nn4sys/vnnlib/cardinality_1_11080_2048_dual.vnnlib
+Precompiled vnnlib file found at vnncomp2022/benchmarks/nn4sys/vnnlib/cardinality_1_11080_2048_dual.vnnlib.compiled
+Loading onnx vnncomp2022/benchmarks/nn4sys/onnx/mscn_2048d_dual.onnx wih quirks {'Reshape': {'fix_batch_size': True}}
+Traceback (most recent call last):
+  File "/vnncomp2022/complete_verifier/abcrown.py", line 613, in <module>
+    abcrown.main()
+  File "/vnncomp2022/complete_verifier/abcrown.py", line 483, in main
+    model_ori, shape, vnnlib, onnx_path = load_model_and_vnnlib(
+  File "/vnncomp2022/complete_verifier/loading.py", line 106, in load_model_and_vnnlib
+    model_ori, shape, vnnlib = eval(  # pylint: disable=eval-used
+  File "/vnncomp2022/complete_verifier/loading.py", line 18, in default_onnx_and_vnnlib_loader
+    model_ori, onnx_shape = load_model_onnx(
+  File "/root/miniconda/envs/alpha-beta-crown/lib/python3.9/site-packages/torch/autograd/grad_mode.py", line 27, in decorate_context
+    return func(*args, **kwargs)
+  File "/vnncomp2022/complete_verifier/load_model.py", line 124, in load_model_onnx
+    onnx_model = unzip_and_optimize_onnx(path, onnx_optimization_flags)
+  File "/vnncomp2022/complete_verifier/load_model.py", line 74, in unzip_and_optimize_onnx
+    onnx_model = onnx.load(path)
+  File "/root/miniconda/envs/alpha-beta-crown/lib/python3.9/site-packages/onnx/__init__.py", line 134, in load_model
+    model = load_model_from_string(s, format=format)
+  File "/root/miniconda/envs/alpha-beta-crown/lib/python3.9/site-packages/onnx/__init__.py", line 171, in load_model_from_string
+    return _deserialize(s, ModelProto())
+  File "/root/miniconda/envs/alpha-beta-crown/lib/python3.9/site-packages/onnx/__init__.py", line 108, in _deserialize
+    decoded = cast(Optional[int], proto.ParseFromString(s))
+google.protobuf.message.DecodeError: Error parsing message with type 'onnx.ModelProto'
+exit code: 2
+head: cannot open 'out.txt' for reading: No such file or directory
+
+------------------------- COMMAND ------------------------------
+/root/miniconda/envs/alpha-beta-crown/bin/python3 /vnncomp2022/complete_verifier/abcrown.py --device cpu --config /vnncomp2022/complete_verifier/exp_configs/vnncomp23/nn4sys_2023.yaml --precompile_jit --onnx_path vnncomp2022/benchmarks/nn4sys/onnx/mscn_2048d_dual.onnx --vnnlib_path vnncomp2022/benchmarks/nn4sys/vnnlib/cardinality_1_11080_2048_dual.vnnlib --results_file out.txt --timeout 800.0 --save_adv_example --bound_prop_method crown --apply_output_constraints_to
+----------------------------------------------------------------
+
+/root/miniconda/envs/alpha-beta-crown/lib/python3.9/site-packages/pkg_resources/__init__.py:121: DeprecationWarning: pkg_resources is deprecated as an API
+  warnings.warn("pkg_resources is deprecated as an API", DeprecationWarning)
+/root/miniconda/envs/alpha-beta-crown/lib/python3.9/site-packages/pkg_resources/__init__.py:2870: DeprecationWarning: Deprecated call to `pkg_resources.declare_namespace('google')`.
+Implementing implicit namespace packages (as specified in PEP 420) is preferred to `pkg_resources.declare_namespace`. See https://setuptools.pypa.io/en/latest/references/keywords.html#keyword-namespace-packages
+  declare_namespace(pkg)
+Configurations:
+
+general:
+  device: cpu
+  seed: 100
+  conv_mode: matrix
+  deterministic: false
+  double_fp: false
+  loss_reduction_func: max
+  sparse_alpha: true
+  sparse_interm: true
+  save_adv_example: true
+  eval_adv_example: false
+  show_adv_example: false
+  precompile_jit: true
+  complete_verifier: bab
+  enable_incomplete_verification: false
+  csv_name: instances.csv
+  results_file: out.txt
+  root_path: ../../vnncomp2023_benchmarks/benchmarks/nn4sys
+  deterministic_opt: false
+  graph_optimizer: 'Customized("custom_graph_optimizer", "default_optimizer")'
+  no_batchdim_buffers: true
+  save_output: false
+  output_file: out.pkl
+model:
+  name: null
+  path: null
+  onnx_path: vnncomp2022/benchmarks/nn4sys/onnx/mscn_2048d_dual.onnx
+  onnx_path_prefix: ''
+  cache_onnx_conversion: false
+  debug_onnx: false
+  onnx_quirks: '''Reshape'': ''fix_batch_size'': True'
+  input_shape: null
+  onnx_loader: default_onnx_and_vnnlib_loader
+  onnx_optimization_flags: none
+  onnx_vnnlib_joint_optimization_flags: none
+  check_optmized: false
+  flatten_final_output: false
+  optimize_graph: null
