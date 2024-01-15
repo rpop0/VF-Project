@@ -2,14 +2,17 @@ import csv
 from pathlib import Path
 import argparse
 import subprocess
+import time
 
 
 def run_tool(instances_path: str, script_path: str, benchmark_path: str) -> None:
+    results: list[tuple] = []
     with Path(instances_path).open("r") as f:
         reader = csv.reader(f)
         for idx, row in enumerate(reader):
             onnx, vnnlib, timeout = row
-            subprocess.call(
+            start = time.perf_counter()
+            process = subprocess.Popen(
                 [
                     "sh",
                     script_path,
@@ -19,8 +22,14 @@ def run_tool(instances_path: str, script_path: str, benchmark_path: str) -> None
                     f"{benchmark_path}/{vnnlib}",
                     f"{idx}.txt",
                     timeout,
-                ]
+                ],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
             )
+            end = time.perf_counter()
+            stdout, _ = process.communicate()
+            print(stdout, end)
 
 
 def main() -> None:
