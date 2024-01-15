@@ -5,14 +5,14 @@ import subprocess
 import time
 
 
-def run_tool(instances_path: str, script_path: str, benchmark_path: str) -> None:
-    results: list[tuple] = []
+def run_tool(instances_path: str, script_path: str, benchmark_path: str) -> list[dict]:
+    results: list[dict] = []
     with Path(instances_path).open("r") as f:
         reader = csv.reader(f)
         for idx, row in enumerate(reader):
             onnx, vnnlib, timeout = row
             start = time.perf_counter()
-            process = subprocess.Popen(
+            subprocess.call(
                 [
                     "sh",
                     script_path,
@@ -22,14 +22,21 @@ def run_tool(instances_path: str, script_path: str, benchmark_path: str) -> None
                     f"{benchmark_path}/{vnnlib}",
                     f"{idx}.txt",
                     timeout,
-                ],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
+                ]
             )
             end = time.perf_counter()
-            stdout, _ = process.communicate()
-            print(stdout, end)
+            results.append({
+                'idx': idx,
+                'duration': end - start
+            })
+    return results
+
+
+def get_results(results: list[dict]) -> list[dict]:
+    for result in results:
+        with Path(f'{result["idx"]}.txt').open('r') as f:
+            result['result'] = f.readline()
+    return results
 
 
 def main() -> None:
@@ -47,7 +54,9 @@ def main() -> None:
         help="Path to the benchmark containing the 'onnx' and 'vnnlib' folders.",
     )
     args = parser.parse_args()
-    run_tool(args.instances, args.script, args.path_to_benchmark)
+    results = run_tool(args.instances, args.script, args.path_to_benchmark)
+    results = get_results(results)
+    print(results)
 
 
 if __name__ == "__main__":
