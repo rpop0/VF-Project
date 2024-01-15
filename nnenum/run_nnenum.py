@@ -34,8 +34,11 @@ def run_tool(instances_path: str, script_path: str, benchmark_path: str) -> list
 
 def get_results(results: list[dict]) -> list[dict]:
     for result in results:
-        with Path(f'{result["idx"]}.txt').open('r') as f:
-            result['result'] = f.readline()
+        try:
+            with Path(f'{result["idx"]}.txt').open('r') as f:
+                result['result'] = f.readline()
+        except FileNotFoundError:
+            continue
     return results
 
 
