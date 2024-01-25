@@ -5,14 +5,14 @@
 TOOL_NAME=alpha-beta-CROWN
 VERSION_STRING=v1
 if [[ -z "${VNNCOMP_PYTHON_PATH}" ]]; then
-	VNNCOMP_PYTHON_PATH=/root/miniconda/envs/alpha-beta-crown/bin
-	VNNCOMP_PYTHON_LEGACY_PATH=/root/miniconda/envs/alpha-beta-crown-2022/bin
+        VNNCOMP_PYTHON_PATH=/root/miniconda/envs/alpha-beta-crown/bin
+        VNNCOMP_PYTHON_LEGACY_PATH=/root/miniconda/envs/alpha-beta-crown-2022/bin
 fi
 
 # check arguments
 if [ "$1" != ${VERSION_STRING} ]; then
-	echo "Expected first argument (version string) '$VERSION_STRING', got '$1'"
-	exit 1
+        echo "Expected first argument (version string) '$VERSION_STRING', got '$1'"
+        exit 1
 fi
 
 echo "Installing $TOOL_NAME"
@@ -41,6 +41,7 @@ aria2c -x 10 -s 10 -k 1M https://us.download.nvidia.com/XFree86/Linux-x86_64/$DR
 sudo nvidia-smi -pm 0
 chmod +x ./NVIDIA-Linux-x86_64-$DRIVER_VERSION.run
 sudo ./NVIDIA-Linux-x86_64-$DRIVER_VERSION.run --silent --dkms
+#sudo ./NVIDIA-Linux-x86_64-$DRIVER_VERSION.run --no-x-check -a -s --no-kernel-module
 # Remove old driver (if already installed) and reload the new one.
 sudo rmmod nvidia_uvm; sudo rmmod nvidia_drm; sudo rmmod nvidia_modeset; sudo rmmod nvidia
 sudo modprobe nvidia; sudo nvidia-smi -e 0; sudo nvidia-smi -r -i 0
